@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepseekFX - Advanced Trading Robots</title>
+    <style>
+        :root {
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --dark: #343a40;
+            --light: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #121212;
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #121212 0%, #1e3c72 100%);
+            padding: 20px 0;
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            margin-left: 10px;
+            background: linear-gradient(to right, #007bff, #00e5ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .hero {
+            padding: 100px 0;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/600');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 123, 255, 0.4);
+        }
+        
+        .features {
+            padding: 80px 0;
+            background-color: #1a1a1a;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #aaa;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: #212121;
+            border-radius: 10px;
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-left: 3px solid var(--primary);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .products {
+            padding: 80px 0;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .product-card {
+            background-color: #212121;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: #333;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .product-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
+        }
+        
+        .product-content {
+            padding: 20px;
+        }
+        
+        .product-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .product-btn {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .testimonials {
+            padding: 80px 0;
+            background-color: #1a1a1a;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background-color: #212121;
+            border-radius: 10px;
+            padding: 30px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #444;
+            margin-right: 15px;
+        }
+        
+        .author-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .cta {
+            padding: 100px 0;
+            text-align: center;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/api/placeholder/1200/600');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        footer {
+            padding: 40px 0;
+            background-color: #121212;
+            border-top: 1px solid #333;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            margin-top: 30px;
+            color: #aaa;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Robot elements */
+        .robot-icon {
+            position: relative;
+            width: 50px;
+            height: 50px;
+        }
+        
+        .robot-head {
+            width: 30px;
+            height: 25px;
+            background-color: var(--primary);
+            border-radius: 5px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+        }
+        
+        .robot-eye {
+            width: 7px;
+            height: 7px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 7px;
+        }
+        
+        .robot-eye-left {
+            left: 7px;
+        }
+        
+        .robot-eye-right {
+            right: 7px;
+        }
+        
+        .robot-antenna {
+            width: 3px;
+            height: 8px;
+            background-color: var(--primary);
+            position: absolute;
+            top: -3px;
+            left: 14px;
+        }
+        
+        .robot-body {
+            width: 40px;
+            height: 20px;
+            background-color: var(--primary);
+            border-radius: 3px;
+            position: absolute;
+            top: 30px;
+            left: 5px;
+        }
+        
+        .trading-chart {
+            height: 60px;
+            background-color: #000;
+            border-radius: 5px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-line {
+            position: absolute;
+            height: 30px;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            stroke: var(--primary);
+            stroke-width: 2;
+            fill: none;
+        }
+        
+        .chart-candle {
+            width: 4px;
+            background-color: var(--success);
+            position: absolute;
+            bottom: 15px;
+        }
+        
+        .candle1 {
+            height: 20px;
+            left: 10%;
+        }
+        
+        .candle2 {
+            height: 15px;
+            left: 20%;
+            background-color: red;
+        }
+        
+        .candle3 {
+            height: 25px;
+            left: 30%;
+        }
+        
+        .candle4 {
+            height: 10px;
+            left: 40%;
+            background-color: red;
+        }
+        
+        .candle5 {
+            height: 30px;
+            left: 50%;
+        }
+        
+        .candle6 {
+            height: 25px;
+            left: 60%;
+        }
+        
+        .candle7 {
+            height: 15px;
+            left: 70%;
+            background-color: red;
+        }
+        
+        .candle8 {
+            height: 30px;
+            left: 80%;
+        }
+        
+        .candle9 {
+            height: 35px;
+            left: 90%;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="robot-icon">
+                        <div class="robot-antenna"></div>
+                        <div class="robot-head">
+                            <div class="robot-eye robot-eye-left"></div>
+                            <div class="robot-eye robot-eye-right"></div>
+                        </div>
+                        <div class="robot-body"></div>
+                    </div>
+                    <h1>DeepseekFX</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Advanced Trading Robots for MT4/MT5</h2>
+            <p>Harness the power of cutting-edge algorithms and deep learning technology to automate your trading strategy and maximize your profits.</p>
+            <div class="trading-chart">
+                <svg class="chart-line" viewBox="0 0 100 30">
+                    <path d="M0,15 L10,10 L20,20 L30,5 L40,15 L50,8 L60,12 L70,18 L80,5 L90,2 L100,10"></path>
+                </svg>
+                <div class="chart-candle candle1"></div>
+                <div class="chart-candle candle2"></div>
+                <div class="chart-candle candle3"></div>
+                <div class="chart-candle candle4"></div>
+                <div class="chart-candle candle5"></div>
+                <div class="chart-candle candle6"></div>
+                <div class="chart-candle candle7"></div>
+                <div class="chart-candle candle8"></div>
+                <div class="chart-candle candle9"></div>
+            </div>
+            <a href="#products" class="btn pulse">Explore Our EAs</a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Powerful Trading Features</h2>
+                <p>Our Expert Advisors (EAs) are designed with advanced features to help you navigate the markets with confidence.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered Analysis</h3>
+                    <p>Our EAs utilize advanced machine learning algorithms to analyze market conditions and identify high-probability trade setups.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Customizable Parameters</h3>
+                    <p>Tailor your trading strategy with adjustable risk parameters, time frames, and entry/exit conditions to match your trading style.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-Time Adaptation</h3>
+                    <p>Our robots continuously learn and adapt to changing market conditions, optimizing performance in all trading environments.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Advanced Risk Management</h3>
+                    <p>Built-in risk management features including stop-loss, take-profit, and position sizing to protect your capital.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Notifications</h3>
+                    <p>Receive real-time alerts about trades, performance, and market conditions directly on your smartphone.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Backtesting Capabilities</h3>
+                    <p>Test your strategies against historical data to validate performance before deploying with real capital.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Trading Robots</h2>
+                <p>Choose from our selection of high-performance Expert Advisors for MetaTrader 4 and MetaTrader 5.</p>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="product-content">
+                        <h3>DeepseekFX Trend Hunter</h3>
+                        <p>Our flagship EA designed to identify and follow strong market trends with precision entry and exit points.</p>
+                        <div class="trading-chart">
+                            <svg class="chart-line" viewBox="0 0 100 30">
+                                <path d="M0,25 L10,20 L20,18 L30,15 L40,10 L50,8 L60,5 L70,3 L80,4 L90,2 L100,1"></path>
+                            </svg>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$297</span>
+                            <a href="#" class="btn product-btn">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="product-content">
+                        <h3>DeepseekFX Scalper Pro</h3>
+                        <p>Designed for short-term traders, this EA executes multiple quick trades to capitalize on small price movements.</p>
+                        <div class="trading-chart">
+                            <svg class="chart-line" viewBox="0 0 100 30">
+                                <path d="M0,15 L10,14 L20,16 L30,13 L40,15 L50,13 L60,17 L70,14 L80,16 L90,13 L100,15"></path>
+                            </svg>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$247</span>
+                            <a href="#" class="btn product-btn">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="product-content">
+                        <h3>DeepseekFX Swing Master</h3>
+                        <p>Specialized in identifying swing trading opportunities with multi-timeframe analysis and accurate price action signals.</p>
+                        <div class="trading-chart">
+                            <svg class="chart-line" viewBox="0 0 100 30">
+                                <path d="M0,15 L10,5 L20,25 L30,10 L40,20 L50,5 L60,25 L70,10 L80,20 L90,5 L100,15"></path>
+                            </svg>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$197</span>
+                            <a href="#" class="btn product-btn">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Clients Say</h2>
+                <p>Don't just take our word for it - hear from traders who have transformed their trading with our EAs.</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"After struggling with manual trading for years, DeepseekFX has completely transformed my approach to the markets. The Trend Hunter EA consistently finds profitable trades that I would have missed."</p>
+                    <div class="testimonial-author">
+                        <div class="author-img"></div>
+                        <div class="author-info">
+                            <h4>Michael T.</h4>
+                            <p>Forex Trader, 3 years</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The risk management features alone are worth the investment. I sleep better at night knowing my trades have proper stop-losses and the robot won't overtrade my account."</p>
+                    <div class="testimonial-author">
+                        <div class="author-img"></div>
+                        <div class="author-info">
+                            <h4>Sarah K.</h4>
+                            <p>Part-time Trader</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The Scalper Pro has been perfect for my trading style. I've seen a 27% increase in my account over the past three months with very reasonable drawdowns."</p>
+                    <div class="testimonial-author">
+                        <div class="author-img"></div>
+                        <div class="author-info">
+                            <h4>Robert J.</h4>
+                            <p>Professional Trader</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2>Ready to Transform Your Trading?</h2>
+            <p>Get started with DeepseekFX today and experience the power of automated algorithmic trading.</p>
+            <a href="#products" class="btn pulse">Get Your EA Now</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="logo">
+                        <div class="robot-icon">
+                            <div class="robot-antenna"></div>
+                            <div class="robot-head">
+                                <div class="robot-eye robot-eye-left"></div>
+                                <div class="robot-eye robot-eye-right"></div>
+                            </div>
+                            <div class="robot-body"></div>
+                        </div>
+                        <h3>DeepseekFX</h3>
+                    </div>
+                    <p>Advanced trading robots for MetaTrader 4 and MetaTrader 5 platforms.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Products</h3>
+                    <ul>
+                        <li><a href="#">Trend Hunter EA</a></li>
+                        <li><a href="#">Scalper Pro EA</a></li>
+                        <li><a href="#">Swing Master EA</a></li>
+                        <li><a href="#">Custom Solutions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Installation Guide</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Affiliate Program</a></li>
+                        <li><a href="#">Partnerships</a></li>
+                        <li><a href="#">Contact Form</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 DeepseekFX. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
